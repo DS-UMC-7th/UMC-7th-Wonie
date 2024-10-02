@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import './App.css'
+import Button from './Button';
+import Input from './Input';
 
 function App() {
   //투두리스트, 화면에 출력되는 (추가, 삭제, 수정)
@@ -22,6 +24,7 @@ function App() {
   const addTodo = () => {
     if(text.trim().length === 0){
       alert('입력해라!')
+      return;
     }
     setTodos((prev) => [
       ...prev, 
@@ -39,59 +42,60 @@ function App() {
   //3. 수정하기 
   const updateTodo = (id, text) => {
     setTodos((prev) => 
-      prev.map((item) => (item.id === id ? {...item, taxk:text}: item))
+      prev.map((item) => (item.id === id ? {...item, task:text}: item))
     );
     setEditingId('');
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-          <input 
-            type='text' 
-            value={text} 
-            onChange={(e) => setText(e.target.value)}
-          />
-          <button onClick={() => addTodo()} type='submit'>할 일 등록</button>
+    <div className="app-container">
+      <h1>Todo List</h1>
+      <form onSubmit={handleSubmit} className="todo-form">
+        <Input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="할 일 입력"
+          className="todo-input"
+        />
+        <Button onClick={addTodo} text="할 일 등록" className="add-btn" />
       </form>
-      <div>
-          {/* 구조 분해 할당
+      <div className="todo-list">
+         {/* 구조 분해 할당
           {{todos.map(({id, task}, _) => (
             <h4>
               {id}. {task}
             </h4>
           ))}} */}
-          {todos.map((todo, _) => (
-            <div key={todo.id} style={{ display: 'flex', gap:'20px' }}>
-              {/*수정이 아닐 때*/}
-              {editingId !== todo.id && (
-                <div key={todo.id} style={{ display: 'flex', gap:'5px' }}>
-                <p>{todo.id}. </p>
-                <p>{todo.task}</p>
+        {todos.map((todo, _) => (
+          <div key={todo.id} className="todo-item">
+            {/*수정이 아닐 때*/}
+            {editingId !== todo.id && (
+              <div className="todo-text">
+                <p>{todo.id}. {todo.task}</p>
               </div>
-              )}
-              {/*수정중 상태일 때*/}
-              {editingId === todo.id && (
-                <div key={todo.id} style={{ display: 'flex', gap:'5px' }}>
-                <p>{todo.id}. </p>
-                <input 
-                  defaultValue={todo.task} 
+            )}
+            {/*수정중 상태일 때*/}
+            {editingId === todo.id && (
+              <div className="todo-edit">
+                <Input
+                  defaultValue={todo.task}
                   onChange={(e) => setEditText(e.target.value)}
+                  className="edit-input"
                 />
               </div>
-              )}
-              <button onClick={() => deleteTodo(todo.id)}>삭제하기</button>
-        
-              {editingId === todo.id ? (
-                <button onClick={() => updateTodo(editingId, editText)}>수정 완료</button>
-              ) : (
-                <button onClick={() => setEditingId(todo.id)}>수정 진행</button>
-              )}
-            </div>
-          ))}
+            )}
+            <Button onClick={() => deleteTodo(todo.id)} text="삭제하기" className="delete-btn" />
+            {editingId === todo.id ? (
+              <Button onClick={() => updateTodo(editingId, editText)} text="수정 완료" className="update-btn" />
+            ) : (
+              <Button onClick={() => setEditingId(todo.id)} text="수정 진행" className="edit-btn" />
+            )}
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 }
 
-export default App
+export default App;
