@@ -6,6 +6,10 @@ import Movies from "./pages/movies.jsx";
 import Login from "./pages/login.jsx";
 import Signup from "./pages/signup.jsx";
 import Search from "./pages/search.jsx";
+import Now from "./pages/now_playing.jsx";
+import Popular from "./pages/popular.jsx";
+import Top from "./pages/top_rated.jsx";
+import Coming from "./pages/up_coming.jsx";
 import RootLayout from "./layout/root-layout.jsx";
 
 
@@ -37,6 +41,22 @@ const router = createBrowserRouter([
           {
             path: 'search',
             element: <Search/>
+          },
+          {
+            path: 'now-playing',
+            element: <Now/>
+          },
+          {
+            path: 'popular',
+            element: <Popular/>
+          },
+          {
+            path: 'top-rated',
+            element: <Top/>
+          },
+          {
+            path: 'up-coming',
+            element: <Coming/>
           }
       ]
   },

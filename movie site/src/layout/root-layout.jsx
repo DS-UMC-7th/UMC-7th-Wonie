@@ -22,11 +22,11 @@ export default RootLayout;
 export const MainContent = styled.div`
     display: flex;
     background-color: #121212;
-    height: 100vh;
 `;
   
 export const ContentWrapper = styled.div`
     height: 100vh;
+    width: 85%;
     overflow-y: auto;
     padding: 1rem;
     background-color: #121212;
