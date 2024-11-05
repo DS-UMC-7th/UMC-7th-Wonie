@@ -10,6 +10,7 @@ import Now from "./pages/now_playing.jsx";
 import Popular from "./pages/popular.jsx";
 import Top from "./pages/top_rated.jsx";
 import Coming from "./pages/up_coming.jsx";
+import Detail from "./pages/detail.jsx"
 import RootLayout from "./layout/root-layout.jsx";
 
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
               // 3. 부모의 path가 '/'이니, /를 붙이지 않아도 /movies랑 동일하게 동작한다.
               path: 'movies',
               element: <Movies/>
+          },
+          {
+            path: 'movies/:movieId', // 영화 상세 페이지 경로 추가
+            element: <Detail/>
           },
           {
             path: 'login',
