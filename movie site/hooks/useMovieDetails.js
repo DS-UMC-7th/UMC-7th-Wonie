@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { detailInstance } from '../src/apis/detailinstance';
+import { detailInstance } from '../src/apis/axios.instance';
 
 const useMovieDetails = (url) => {
     const [data, setData] = useState(null);

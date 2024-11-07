@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 import useForm from '../../hooks/use-from.js';
 import { validateLogin } from '../utils/validate.js';
+import { axiosAuthInstance } from "../apis/axios.instance.js";
+import { useNavigate } from 'react-router-dom';
 
 const login = () => {
+    const navigate = useNavigate();
+
     const login = useForm( {
         initialValue: {
             email: '',
@@ -13,10 +17,25 @@ const login = () => {
 
     console.log(login.getTextInputProps)
 
-    const handlePressLogin = () => {
+    const handlePressLogin = async () => {
         console.log(login.values.email, login.values.password)
-    }
+        
+        try {
+            const response = await axiosAuthInstance.post('/auth/login', {
+                email: login.values.email,
+                password: login.values.password,
+            });
+            console.log('로그인 성공', response.data);
 
+            // AccessToken과 RefreshToken을 localStorage에 저장
+            localStorage.setItem('accessToken', response.data.accessToken);
+            localStorage.setItem('refreshToken', response.data.refreshToken);
+            
+            navigate('/');
+        } catch (error) {
+            console.error('로그인 실패:', error.response ? error.response.data : error.message);
+        }
+    };
 
     return (
         <Container>

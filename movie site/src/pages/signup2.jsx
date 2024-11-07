@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 import useForm from '../../hooks/use-from.js';
 import { validateSignup } from '../utils/validateSignup.js';
+import { axiosAuthInstance } from "../apis/axios.instance.js";
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+    const navigate = useNavigate();
+
     const signup = useForm({
         initialValue: {
             email: '',
@@ -12,8 +16,20 @@ const Signup = () => {
         validate: validateSignup
     });
 
-    const handlePressSignup = () => {
+    const handlePressSignup = async () => {
         console.log(signup.values.email, signup.values.password, signup.values.confirmPassword);
+        
+        try {
+            const response = await axiosAuthInstance.post('/auth/register', {
+                email: signup.values.email,
+                password: signup.values.password,
+                passwordCheck: signup.values.confirmPassword,
+            });
+            console.log('회원가입 성공', response.data);
+            navigate('/login');
+        } catch (error) {
+            console.error('회원가입 실패:', error.response ? error.response.data : error.message);
+        }
     };
 
     return (
@@ -84,3 +100,4 @@ const StyledButton = styled.button`
         background-color: #ce1752;
     }
 `;
+
