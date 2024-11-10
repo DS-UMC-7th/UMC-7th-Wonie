@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 const CreditDetail = () => {
     const { movieId } = useParams();
-    const { data, isLoading, isError } = CreditFetch(`/${movieId}/credits?language=ko`);
+    const { data, isLoading, isError } = CreditFetch(`/movie/${movieId}/credits?language=ko`);
   
     if (isLoading) return <div>로딩중...</div>;
     if (isError) return <div>에러가 발생했습니다.</div>;
