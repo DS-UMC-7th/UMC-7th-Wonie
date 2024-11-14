@@ -41,7 +41,7 @@ const login = () => {
 
     return (
         <Container>
-            <StyledTitle>회원가입</StyledTitle>
+            <StyledTitle>로그인</StyledTitle>
 
             <Input error={login.touched.email && login.errors.email} type={"email"} placeholder={"이메일을 입력해주세요!"} {...login.getTextInputProps("email")}/>
             {login.touched.email && login.errors.email && <ErrorText>{login.errors.email}</ErrorText>}
