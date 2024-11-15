@@ -1,93 +1,110 @@
-// import {useEffect, useState} from "react";
-import Card from '../components/Card';
-// import { axiosInstance } from "../apis/axios.instance";
-// import useCustomFetch from "../../hooks/useCustomFetch";
-import CardList from '../components/CardList';
-import CardListSkeleton from '../components/Skeleton/card-list-skeleton';
-// import { useGetMovies } from '../../hooks/queries/useGetMovies';
-// import { useQuery } from '@tanstack/react-query';
-import { useGetInfiniteMovies } from '../../hooks/queries/useGetInfinteMovies';
-import {useInView} from "react-intersection-observer"
-import { useEffect } from 'react';
-import ClipLoader from "react-spinners/ClipLoader"
+import React, { useState, useEffect } from "react";
+import Card from "../components/Card";
+import CardList from "../components/CardList";
+import CardListSkeleton from "../components/Skeleton/card-list-skeleton";
+import { useGetInfiniteMovies } from "../../hooks/queries/useGetInfinteMovies";
 
 const Now_playing = () => {
-    // const [movies, setMovies] = useState([])
-
-    // useEffect(() => {
-    //     const getMovies = async () => {
-    //             const response = await axiosInstance.get(`/now_playing?language=ko&page=1`)
-    //             setMovies(response.data.results);
-    //     }
-    //     getMovies();
-    // }, []);
-    // const { data: movies, isLoading, isError } = useCustomFetch(`/movie/now_playing?language=ko&page=1`);
-
-    // const {data, isPending, isError} = useQuery({
-    //     queryFn: () => useGetMovies({category: 'now_playing', pageParam: 1}),
-    //     queryKey: ['movies', 'now_playing'],
-    //     cacheTime: 10000,
-    //     staleTime: 10000,
-    // })
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 관리
+    const [currentMovies, setCurrentMovies] = useState([]); // 현재 페이지 데이터 관리
 
     const {
         data: movies,
         isLoading,
-        isFetching,
         hasNextPage,
         fetchNextPage,
         isFetchingNextPage,
         error,
         isError,
-    } = useGetInfiniteMovies('now_playing');
-    
-    const {ref, inView} = useInView({
-        threshold: 0,
-    })
+    } = useGetInfiniteMovies("now_playing");
 
     useEffect(() => {
-        if(inView) {
-            !isFetching && hasNextPage && fetchNextPage();
+        // 현재 페이지 데이터를 업데이트
+        if (movies?.pages?.[currentPage - 1]?.results) {
+            setCurrentMovies(movies.pages[currentPage - 1].results);
         }
-    }, [inView, isFetching, hasNextPage, fetchNextPage]);
+    }, [currentPage, movies]);
 
-    // // data.results로 영화 배열 가져오기
-    // const movies = data?.results || [];
+    const handleNextPage = () => {
+        if (hasNextPage && movies?.pages?.length === currentPage) {
+            // 현재 페이지가 이미 로드된 페이지라면 fetchNextPage를 호출
+            fetchNextPage();
+        }
+        setCurrentPage((prev) => prev + 1);
+    };
 
-    console.log('Movies:', movies);
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage((prev) => prev - 1);
+        }
+    };
 
-    // console.log(movies);
-
-    //isPending = 데이터를 불러오는 중, 데이터가 로딩 중일 때 IsPending 
-    //isLoading = 데이터를 불렁는 중이거나, 재시도 중일 때 true
-
-
-    // if (isLoading) {
-    //     return <CardListSkeleton number={35} />;
-    // }
-
-    if (isError) {
-        return <div style={{ color: 'white', textAlign: 'center' }}>에러가 발생했습니다.</div>;
+    if (isLoading) {
+        return <CardListSkeleton number={20} />;
     }
 
-    // 합쳐진 movies 리스트 생성
-    const allMovies = movies?.pages?.flatMap(page => page.results) || [];
+    if (isError) {
+        return <div style={{ color: "white", textAlign: "center" }}>에러가 발생했습니다.</div>;
+    }
 
     return (
-        <>
-            <CardList movies={allMovies.map(movie => <Card key={movie.id} movie={movie} />)} />
-            {isFetching && <CardListSkeleton number={20} />}
+        <div>
+            {/* 현재 페이지 데이터 렌더링 */}
+            <CardList movies={currentMovies.map((movie) => <Card key={movie.id} movie={movie} />)} />
+
+            {/* 페이지네이션 버튼 */}
             <div
-                ref={ref}
                 style={{
-                    marginTop: '50px',
-                    justifyContent: 'center',
-                    width: '100%',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "20px",
+                    marginTop: "20px",
                 }}
             >
-                {isFetchingNextPage && <ClipLoader color={'#fff'} />}
+                {/* 이전 페이지 버튼 */}
+                <button
+                    onClick={handlePrevPage}
+                    disabled={currentPage === 1}
+                    style={{
+                        backgroundColor: currentPage === 1 ? "gray" : "#007BFF",
+                        color: "white",
+                        padding: "10px 20px",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                    }}
+                >
+                    Previous
+                </button>
+
+                {/* 현재 페이지 표시 */}
+                <span style={{ color: "white", fontSize: "16px" }}>Page {currentPage}</span>
+
+                {/* 다음 페이지 버튼 */}
+                <button
+                    onClick={handleNextPage}
+                    disabled={!hasNextPage && currentPage === movies?.pages?.length}
+                    style={{
+                        backgroundColor: !hasNextPage && currentPage === movies?.pages?.length ? "gray" : "#007BFF",
+                        color: "white",
+                        padding: "10px 20px",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: !hasNextPage && currentPage === movies?.pages?.length ? "not-allowed" : "pointer",
+                    }}
+                >
+                    Next
+                </button>
             </div>
-        </>
+
+            {/* 로딩 표시 */}
+            {isFetchingNextPage && (
+                <div style={{ textAlign: "center", marginTop: "20px" }}>
+                    <CardListSkeleton number={20} />
+                </div>
+            )}
+        </div>
     );
 };
 
