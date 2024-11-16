@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { creditInstance } from "../src/apis/creditinstance";
+import { creditInstance } from "../src/apis/axios.instance";
 
 
 const useCreditDetails = (url) => {

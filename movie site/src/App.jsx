@@ -4,7 +4,7 @@ import HomePage from "./pages/home.jsx";
 import NotFound from "./pages/not-found.jsx";
 import Movies from "./pages/movies.jsx";
 import Login from "./pages/login2.jsx";
-import Signup from "./pages/signup.jsx";
+import Signup from "./pages/signup2.jsx";
 import Search from "./pages/search.jsx";
 import Now from "./pages/now_playing.jsx";
 import Popular from "./pages/popular.jsx";

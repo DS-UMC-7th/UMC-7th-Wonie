@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 const Detail = () => {
   const { movieId } = useParams(); 
-  const { data: movie, isLoading, isError } = detailFetch(`/${movieId}?language=ko`);
+  const { data: movie, isLoading, isError } = detailFetch(`/movie/${movieId}?language=ko`);
 
   if (isLoading) return <div>로딩중...</div>;
   if (isError) return <div>에러가 발생했습니다.</div>;

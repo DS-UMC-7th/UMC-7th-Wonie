@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const HomePage = () => {
     return (
-        <StyledContent>Home Page</StyledContent>
+        <StyledContent>Main Page</StyledContent>
     );
 };
 
