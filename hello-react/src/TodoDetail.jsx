@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import styled from "styled-components"
 import useFetch from "../hooks/useFetch"
+import Loading from "./Loading";
+import ErrorMessage from "./ErrorMessage";
 
 const TodoDetail = () => {
   const { id } = useParams();
   const { data: todo, loading, error } = useFetch(`/todo/${id}`);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error loading todo: {error.message}</p>;
+  if (loading) return <Loading />;
+  if (error) return <ErrorMessage/>;
   if (!todo) return <p>Todo not found</p>;
 
   return (
