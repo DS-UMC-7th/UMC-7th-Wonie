@@ -14,7 +14,8 @@ import Top from "./pages/top_rated.jsx";
 import Coming from "./pages/up_coming.jsx";
 import Detail from "./pages/detail.jsx"
 import RootLayout from "./layout/root-layout.jsx";
-
+import OST from "./pages/ost.jsx";
+import Subscribe from "./pages/subscribe.jsx"
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
                   path: ':movieId', // 영화 상세 페이지 경로 추가
                   element: <Detail/>
                 },
+                {
+                  path: 'ost',
+                  element: <OST/>
+                },
               ]
           },
           {
@@ -69,6 +74,10 @@ const router = createBrowserRouter([
           {
             path: 'search',
             element: <Search/>
+          },
+          {
+            path: 'subscribe',
+            element: <Subscribe/>
           },
       ]
   },
