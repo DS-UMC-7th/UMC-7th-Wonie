@@ -1,4 +1,6 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import HomePage from "./pages/home.jsx";
 import NotFound from "./pages/not-found.jsx";
@@ -29,11 +31,32 @@ const router = createBrowserRouter([
           {
               // 3. 부모의 path가 '/'이니, /를 붙이지 않아도 /movies랑 동일하게 동작한다.
               path: 'movies',
-              element: <Movies/>
-          },
-          {
-            path: 'movies/:movieId', // 영화 상세 페이지 경로 추가
-            element: <Detail/>
+              children: [
+                {
+                  index: true,
+                  element: <Movies/>
+                },
+                {
+                  path: 'now-playing',
+                  element: <Now/>
+                },
+                {
+                  path: 'popular',
+                  element: <Popular/>
+                },
+                {
+                  path: 'top-rated',
+                  element: <Top/>
+                },
+                {
+                  path: 'up-coming',
+                  element: <Coming/>
+                },
+                {
+                  path: ':movieId', // 영화 상세 페이지 경로 추가
+                  element: <Detail/>
+                },
+              ]
           },
           {
             path: 'login',
@@ -47,29 +70,20 @@ const router = createBrowserRouter([
             path: 'search',
             element: <Search/>
           },
-          {
-            path: 'now-playing',
-            element: <Now/>
-          },
-          {
-            path: 'popular',
-            element: <Popular/>
-          },
-          {
-            path: 'top-rated',
-            element: <Top/>
-          },
-          {
-            path: 'up-coming',
-            element: <Coming/>
-          }
       ]
   },
-
 ])
 
+// Create a client
+const queryClient = new QueryClient()
+
 function App() {
-  return <RouterProvider router={router}/>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router}/>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
 }
 
 export default App;
