@@ -5,8 +5,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import HomePage from "./pages/home.jsx";
 import NotFound from "./pages/not-found.jsx";
 import Movies from "./pages/movies.jsx";
-import Login from "./pages/login2.jsx";
-import Signup from "./pages/signup2.jsx";
+import Login from "./pages/login3.jsx";
+import Signup from "./pages/signup3.jsx";
 import Search from "./pages/search.jsx";
 import Now from "./pages/now_playing.jsx";
 import Popular from "./pages/popular.jsx";
@@ -14,7 +14,8 @@ import Top from "./pages/top_rated.jsx";
 import Coming from "./pages/up_coming.jsx";
 import Detail from "./pages/detail.jsx"
 import RootLayout from "./layout/root-layout.jsx";
-
+import OST from "./pages/ost.jsx";
+import Subscribe from "./pages/subscribe.jsx"
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
                   path: ':movieId', // 영화 상세 페이지 경로 추가
                   element: <Detail/>
                 },
+                {
+                  path: 'ost',
+                  element: <OST/>
+                },
               ]
           },
           {
@@ -69,6 +74,10 @@ const router = createBrowserRouter([
           {
             path: 'search',
             element: <Search/>
+          },
+          {
+            path: 'subscribe',
+            element: <Subscribe/>
           },
       ]
   },

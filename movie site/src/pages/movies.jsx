@@ -55,6 +55,13 @@ const MoviesPage = () => {
                     <CategoryLabel>개봉 예정중인</CategoryLabel>
                 </CategoryCard>
             </CategoryContainer>
+            <br/><br/>
+            <CategoryContainer>
+                <CategoryCard to="/movies/ost">
+                    <CategoryImage src="https://an2-img.amz.wtchn.net/image/v2/h6SNEWn-l_toV5vP7vNkgA.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5EQXdlRFF3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpVNU1UTXhPVEV6TXpBd09EVXdJbjAuN3UzZEVoN1RWeXhOdzg2N0hjc25IVXE5aVJuRi1ZOFpoV3FCWk9jSXIwMA" alt="OST" />
+                    <CategoryLabel>OST</CategoryLabel>
+                </CategoryCard>
+            </CategoryContainer>
         </>
     );
 };

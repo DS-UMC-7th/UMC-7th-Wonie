@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FaSearch } from "react-icons/fa";
 import { PiFilmSlateFill } from "react-icons/pi";
+import { FaMoneyCheck } from "react-icons/fa";
 
 const Sidebar = () => (
   <SidebarContainer>
@@ -12,6 +13,10 @@ const Sidebar = () => (
       <SidebarItem to="/movies">
         <PiFilmSlateFill />
         영화
+      </SidebarItem>
+      <SidebarItem to="/subscribe">
+        <FaMoneyCheck />
+        구독
       </SidebarItem>
   </SidebarContainer>
 );
