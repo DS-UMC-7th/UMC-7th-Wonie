@@ -4,11 +4,15 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import CartItem from "./CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import {calculateTotals, clearCart} from "../features/Cart/CartSlice"
+import { openModal } from "../features/Modal/modalSlice";
+import Modal from "./Modal";
+import ModalPortal from "./ModalPortal";
 
 function CartList() {
   const { cartItems, total } = useSelector((store) => store.cart);
   const { amount } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const { isOpen } = useSelector((store) => store.modal);
 
   useEffect(() => {
     dispatch(calculateTotals())
@@ -31,13 +35,19 @@ function CartList() {
         {cartItems.map((item) => {
           return <CartItem key={item.id} {...item} />;
         })}
-
+        {isOpen &&
+          <ModalPortal>
+            <Modal>
+              <h4> 담아주신 모든 음반을 삭제하시겠습니까?</h4>
+            </Modal>
+          </ModalPortal>
+        }
         <CartFooter>
           <TotalPriceWrapper>
             <TotalText>총 가격</TotalText>
             <TotalAmount>₩ {total}원</TotalAmount>
           </TotalPriceWrapper>
-          <ResetButton onClick={() => dispatch(clearCart())}>장바구니 초기화</ResetButton>
+          <ResetButton onClick={() => dispatch(openModal())}>장바구니 초기화</ResetButton>
         </CartFooter>
       </CartContainer>
     </>
